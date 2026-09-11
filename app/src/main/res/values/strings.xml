@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TVAgent-Receiver</string>
+    <string name="accessibility_service_description">Allows TVAgent-Receiver to execute remote control commands (Home, Back, Recents, Power, Volume) sent from your phone.</string>
+</resources>
