@@ -24,26 +24,30 @@ class RemoteAccessibilityService : AccessibilityService() {
 
     fun performCommand(action: String) {
         Log.d(TAG, "performCommand: $action")
-        when (action) {
-            "POWER" -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
-            "HOME" -> performGlobalAction(GLOBAL_ACTION_HOME)
-            "BACK" -> performGlobalAction(GLOBAL_ACTION_BACK)
-            "DPAD_UP" -> performGlobalAction(GLOBAL_ACTION_DPAD_UP)
-            "DPAD_DOWN" -> performGlobalAction(GLOBAL_ACTION_DPAD_DOWN)
-            "DPAD_LEFT" -> performGlobalAction(GLOBAL_ACTION_DPAD_LEFT)
-            "DPAD_RIGHT" -> performGlobalAction(GLOBAL_ACTION_DPAD_RIGHT)
-            "DPAD_CENTER" -> performGlobalAction(GLOBAL_ACTION_DPAD_CENTER)
-            "VOLUME_UP" -> audioManager.adjustSuggestedStreamVolume(
-                AudioManager.ADJUST_RAISE,
-                AudioManager.USE_DEFAULT_STREAM_TYPE,
-                AudioManager.FLAG_SHOW_UI
-            )
-            "VOLUME_DOWN" -> audioManager.adjustSuggestedStreamVolume(
-                AudioManager.ADJUST_LOWER,
-                AudioManager.USE_DEFAULT_STREAM_TYPE,
-                AudioManager.FLAG_SHOW_UI
-            )
-            else -> Log.w(TAG, "Unknown action: $action")
+        try {
+            when (action) {
+                "POWER" -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
+                "HOME" -> performGlobalAction(GLOBAL_ACTION_HOME)
+                "BACK" -> performGlobalAction(GLOBAL_ACTION_BACK)
+                "DPAD_UP" -> performGlobalAction(GLOBAL_ACTION_DPAD_UP)
+                "DPAD_DOWN" -> performGlobalAction(GLOBAL_ACTION_DPAD_DOWN)
+                "DPAD_LEFT" -> performGlobalAction(GLOBAL_ACTION_DPAD_LEFT)
+                "DPAD_RIGHT" -> performGlobalAction(GLOBAL_ACTION_DPAD_RIGHT)
+                "DPAD_CENTER" -> performGlobalAction(GLOBAL_ACTION_DPAD_CENTER)
+                "VOLUME_UP" -> audioManager.adjustSuggestedStreamVolume(
+                    AudioManager.ADJUST_RAISE,
+                    AudioManager.USE_DEFAULT_STREAM_TYPE,
+                    0
+                )
+                "VOLUME_DOWN" -> audioManager.adjustSuggestedStreamVolume(
+                    AudioManager.ADJUST_LOWER,
+                    AudioManager.USE_DEFAULT_STREAM_TYPE,
+                    0
+                )
+                else -> Log.w(TAG, "Unknown action: $action")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "performCommand failed for $action: ${e.message}", e)
         }
     }
 
