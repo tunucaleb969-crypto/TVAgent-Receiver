@@ -33,14 +33,14 @@ class RemoteAccessibilityService : AccessibilityService() {
             "DPAD_LEFT" -> performGlobalAction(GLOBAL_ACTION_DPAD_LEFT)
             "DPAD_RIGHT" -> performGlobalAction(GLOBAL_ACTION_DPAD_RIGHT)
             "DPAD_CENTER" -> performGlobalAction(GLOBAL_ACTION_DPAD_CENTER)
-            "VOLUME_UP" -> audioManager.adjustStreamVolume(
-                AudioManager.STREAM_MUSIC,
+            "VOLUME_UP" -> audioManager.adjustSuggestedStreamVolume(
                 AudioManager.ADJUST_RAISE,
+                AudioManager.USE_DEFAULT_STREAM_TYPE,
                 AudioManager.FLAG_SHOW_UI
             )
-            "VOLUME_DOWN" -> audioManager.adjustStreamVolume(
-                AudioManager.STREAM_MUSIC,
+            "VOLUME_DOWN" -> audioManager.adjustSuggestedStreamVolume(
                 AudioManager.ADJUST_LOWER,
+                AudioManager.USE_DEFAULT_STREAM_TYPE,
                 AudioManager.FLAG_SHOW_UI
             )
             else -> Log.w(TAG, "Unknown action: $action")
