@@ -20,6 +20,11 @@ class ReceiverForegroundService : Service() {
     private val TAG = "ReceiverService"
     private val DEVICE_ID = "hikers-tv"
 
+    companion object {
+        var isRunning = false
+        var isFirebaseConnected = false
+    }
+
     private lateinit var database: FirebaseDatabase
     private var lastProcessedTimestamp: Long = 0L
 
@@ -49,6 +54,7 @@ class ReceiverForegroundService : Service() {
     private val connectionListener = object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             val connected = snapshot.getValue(Boolean::class.java) ?: false
+            isFirebaseConnected = connected
             if (connected) {
                 disconnectedSince = 0L
                 Log.d(TAG, "Firebase connected")
@@ -77,6 +83,7 @@ class ReceiverForegroundService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        isRunning = true
         startForegroundWithNotification()
 
         database = FirebaseDatabase.getInstance()
@@ -117,6 +124,7 @@ class ReceiverForegroundService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        isRunning = false
         handler.removeCallbacks(watchdogRunnable)
         database.getReference("remote/$DEVICE_ID/command").removeEventListener(commandListener)
         database.getReference(".info/connected").removeEventListener(connectionListener)
