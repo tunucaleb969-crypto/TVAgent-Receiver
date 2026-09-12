@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import java.io.PrintWriter
@@ -49,6 +49,20 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     startService(serviceIntent)
                 }
+            }
+        })
+
+        layout.addView(Button(this).apply {
+            text = "Check Service Status"
+            setOnClickListener {
+                val running = ReceiverForegroundService.isRunning
+                val connected = ReceiverForegroundService.isFirebaseConnected
+                val a11yOn = RemoteAccessibilityService.instance != null
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Status")
+                    .setMessage("Service running: $running\nFirebase connected: $connected\nAccessibility active: $a11yOn")
+                    .setPositiveButton("OK", null)
+                    .show()
             }
         })
 
